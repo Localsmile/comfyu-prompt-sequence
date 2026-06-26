@@ -822,8 +822,8 @@ class PromptImageSequence:
 
 
 class PromptImageMaskSequence:
-    RETURN_TYPES = ("IMAGE", "STRING", "MASK")
-    RETURN_NAMES = ("image", "prompt", "mask")
+    RETURN_TYPES = ("STRING", "IMAGE", "MASK")
+    RETURN_NAMES = ("prompt", "image", "mask")
     FUNCTION = "build"
     CATEGORY = "prompt sequence"
     OUTPUT_IS_LIST = (True, True, True)
@@ -880,14 +880,14 @@ class PromptImageMaskSequence:
 
         if not records or records == [""]:
             image, mask = _blank_image_and_mask()
-            return ([image], [""], [mask])
+            return ([""], [image], [mask])
 
         for record in records:
             image, prompt, mask = _asset_record_to_outputs(record)
             images.append(image)
             prompts.append(prompt)
             masks.append(mask)
-        return (images, prompts, masks)
+        return (prompts, images, masks)
 
 
 NODE_CLASS_MAPPINGS = {

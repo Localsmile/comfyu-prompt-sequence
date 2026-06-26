@@ -1,6 +1,6 @@
 {
-  "last_node_id": 5,
-  "last_link_id": 4,
+  "last_node_id": 6,
+  "last_link_id": 5,
   "nodes": [
     {
       "id": 1,
@@ -164,7 +164,7 @@
         230
       ],
       "flags": {},
-      "order": 4,
+      "order": 5,
       "mode": 0,
       "inputs": [
         {
@@ -176,6 +176,11 @@
           "name": "text_2",
           "type": "STRING",
           "link": 4
+        },
+        {
+          "name": "text_3",
+          "type": "STRING",
+          "link": 5
         }
       ],
       "outputs": [
@@ -190,12 +195,58 @@
         "Node name for S&R": "ComfyUIPromptSequenceJoin"
       },
       "widgets_values": [
-        2,
+        3,
         ", ",
         true,
         "longest",
         "blank",
         0
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ComfyUIPromptImageMaskSequence",
+      "pos": [
+        -760,
+        440
+      ],
+      "size": [
+        420,
+        500
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            5
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 1
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfyUIPromptImageMaskSequence"
+      },
+      "widgets_values": [
+        "{}",
+        "sequential",
+        -1
       ]
     }
   ],
@@ -230,6 +281,14 @@
       0,
       5,
       1,
+      "STRING"
+    ],
+    [
+      5,
+      6,
+      0,
+      5,
+      2,
       "STRING"
     ]
   ],

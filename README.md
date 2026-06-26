@@ -87,7 +87,7 @@ Stores prompt cards with preview images and outputs checked prompts as a text li
 
 Image-first version of the image sequence node.
 
-- outputs `IMAGE`, `STRING`, `MASK`
+- outputs `STRING`, `IMAGE`, `MASK`
 - prompt may be empty
 - square thumbnail grid with full-image letterboxing
 - image is saved without resizing
@@ -106,6 +106,7 @@ Minimal graph:
 ```text
 Prompt Sequence Text -> Prompt Sequence Combo -> Prompt Sequence Join
 Prompt Sequence Text -> Prompt Sequence Combo -> Prompt Sequence Join
+Prompt Image Mask Sequence -> Prompt Sequence Join
 ```
 
 Connect the final text output to `CLIP Text Encode`.
