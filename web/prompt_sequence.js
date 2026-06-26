@@ -54,14 +54,19 @@ function injectStyle() {
   style.textContent = `
     .ps-picker {
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
       width: 100%;
+      height: 100%;
       min-width: 320px;
+      min-height: 320px;
       padding: 8px;
       color: #ddd;
       font: 12px/1.4 Arial, sans-serif;
       background: #222;
       border: 1px solid #444;
       border-radius: 6px;
+      overflow: hidden;
     }
     .ps-toolbar {
       display: grid;
@@ -100,7 +105,12 @@ function injectStyle() {
     .ps-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+      align-content: start;
       gap: 6px;
+      min-height: 0;
+      flex: 1 1 auto;
+      overflow-x: hidden;
+      overflow-y: auto;
       padding-right: 2px;
     }
     .ps-card {
@@ -921,12 +931,18 @@ function setupPicker(node, pickerOptions = {}) {
   });
 
   const previousOnResize = node.onResize;
+  const resizePicker = (size = node.size || [420, 500]) => {
+    root.style.width = `${Math.max(320, size[0] - 20)}px`;
+    root.style.height = `${Math.max(320, size[1] - 80)}px`;
+  };
+
   node.onResize = function (size) {
     previousOnResize?.apply(this, arguments);
-    root.style.width = `${Math.max(320, size[0] - 20)}px`;
+    resizePicker(size);
   };
 
   node.setSize([Math.max(node.size[0], 420), Math.max(node.size[1], 500)]);
+  resizePicker();
   refresh();
 }
 
@@ -948,7 +964,9 @@ app.registerExtension({
       const onNodeCreated = nodeType.prototype.onNodeCreated;
       nodeType.prototype.onNodeCreated = function () {
         const result = onNodeCreated?.apply(this, arguments);
-        setupPicker(this);
+        setupPicker(this, {
+          containThumb: true,
+        });
         return result;
       };
     }

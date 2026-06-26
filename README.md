@@ -82,7 +82,7 @@ Stores prompt cards with preview images and outputs checked prompts as a text li
 
 - project/topic/card library
 - project-wide `All topics` view
-- responsive square thumbnail grid
+- responsive square thumbnail grid with full-image letterboxing
 - hover card to view prompt text
 - right-click card to edit or delete
 - preview image is resized to max 512 px
