@@ -510,7 +510,7 @@ class PromptSequenceText:
         }
 
     @classmethod
-    def IS_CHANGED(cls, prompts: str, mode: str, seed: int, max_items: int):
+    def IS_CHANGED(cls, prompts: str, mode: str, seed: int, max_items: int = 0):
         if mode == "random" and int(seed) < 0:
             return float("NaN")
         payload = {
@@ -521,7 +521,7 @@ class PromptSequenceText:
         }
         return hashlib.sha1(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()
 
-    def build(self, prompts: str, mode: str, seed: int, max_items: int):
+    def build(self, prompts: str, mode: str, seed: int, max_items: int = 0):
         return (_select_values(_split_prompt_lines(prompts), mode, int(seed), _as_int(max_items, 0)),)
 
 
@@ -700,7 +700,7 @@ class PromptSequenceJoin:
         skip_empty: bool,
         length_policy: str,
         missing_policy: str,
-        max_items: int,
+        max_items: int = 0,
         **kwargs,
     ):
         count = max(1, min(MAX_JOIN_INPUTS, _as_int(input_count, 2)))
@@ -824,7 +824,7 @@ class PromptImageSequence:
         selection_json: str,
         mode: str,
         seed: int,
-        max_items: int,
+        max_items: int = 0,
     ):
         if mode == "random" and int(seed) < 0:
             return float("NaN")
@@ -842,7 +842,7 @@ class PromptImageSequence:
         selection_json: str,
         mode: str,
         seed: int,
-        max_items: int,
+        max_items: int = 0,
     ):
         prompts = _load_selected_asset_prompts(selection_json)
         if not prompts:
@@ -899,7 +899,7 @@ class PromptImageMaskSequence:
         }
 
     @classmethod
-    def IS_CHANGED(cls, selection_json: str, mode: str, seed: int, max_items: int):
+    def IS_CHANGED(cls, selection_json: str, mode: str, seed: int, max_items: int = 0):
         if mode == "random" and int(seed) < 0:
             return float("NaN")
         payload = {
@@ -911,7 +911,7 @@ class PromptImageMaskSequence:
         }
         return hashlib.sha1(json.dumps(payload, sort_keys=True).encode("utf-8")).hexdigest()
 
-    def build(self, selection_json: str, mode: str, seed: int, max_items: int):
+    def build(self, selection_json: str, mode: str, seed: int, max_items: int = 0):
         records = _load_selected_asset_records(selection_json)
         records = _select_values(records, mode, int(seed), _as_int(max_items, 0))
         images = []
