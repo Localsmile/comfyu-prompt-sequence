@@ -29,6 +29,9 @@ Limits or shuffles a prompt sequence.
 
 - unconnected: uses its own multiline prompt box
 - connected: uses the connected `source` list and hides the local prompt box
+- `mode=random`: shuffles before `max_items` is applied
+- `seed=-1`: new random order each queue
+- `seed>=0`: repeat the same random order
 - `max_items=0`: output all available prompts
 - `max_items>0`: output up to that many prompts
 
@@ -85,7 +88,7 @@ Stores prompt cards with preview images and outputs checked prompts as a text li
 
 ### Prompt Image Mask Sequence
 
-Image-first version of the image sequence node.
+Stores prompt cards with source images and optional masks.
 
 - outputs `STRING`, `IMAGE`, `MASK`
 - prompt may be empty

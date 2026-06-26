@@ -584,8 +584,8 @@ class PromptSequenceCombo:
 
     def build(self, prompts, mode, max_items, seed, source=None):
         mode_value = str(_as_scalar(mode, "sequential"))
-        seed_value = _as_int(seed, -1)
         max_items_value = _as_int(max_items, 0)
+        seed_value = _as_int(seed, -1)
 
         if source is None:
             values = _split_prompt_lines(str(_as_scalar(prompts, "")))

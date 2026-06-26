@@ -17,7 +17,7 @@ const WIDGET_TOOLTIPS = {
     prompts: "Used only when source is not connected. Hidden and ignored while source is connected.",
     mode: "sequential: keep source order. random: shuffle before max_items is applied.",
     max_items: "0 outputs all available prompts. A positive value outputs up to that many prompts.",
-    seed: "For random mode: -1 makes a new order each queue; a fixed value repeats the same order.",
+    seed: "Used only in random mode. -1 makes a new order each queue; a fixed value repeats the same order.",
   },
   ComfyUIPromptSequenceJoin: {
     input_count: "Number of visible text inputs. Click update inputs after changing it.",
@@ -459,10 +459,12 @@ function setupComboNode(node) {
   }
   node._promptSequenceComboReady = true;
 
-  const syncPromptWidget = () => {
+  const syncWidgets = () => {
     const promptsWidget = getWidget(node, "prompts");
+    const sourceWidget = getWidget(node, "source");
     const sourceConnected = isInputConnected(node, "source");
     setWidgetHidden(promptsWidget, sourceConnected);
+    setWidgetHidden(sourceWidget, true);
     if (promptsWidget) {
       setWidgetTooltip(
         promptsWidget,
@@ -478,18 +480,18 @@ function setupComboNode(node) {
   const previousOnConfigure = node.onConfigure;
   node.onConfigure = function () {
     const result = previousOnConfigure?.apply(this, arguments);
-    syncPromptWidget();
+    syncWidgets();
     return result;
   };
 
   const previousOnConnectionsChange = node.onConnectionsChange;
   node.onConnectionsChange = function () {
     const result = previousOnConnectionsChange?.apply(this, arguments);
-    syncPromptWidget();
+    syncWidgets();
     return result;
   };
 
-  syncPromptWidget();
+  syncWidgets();
 }
 
 function isJoinTextInput(input) {
