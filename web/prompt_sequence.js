@@ -59,7 +59,7 @@ function injectStyle() {
       width: 100%;
       height: 100%;
       min-width: 320px;
-      min-height: 320px;
+      min-height: 0;
       padding: 8px;
       color: #ddd;
       font: 12px/1.4 Arial, sans-serif;
@@ -108,6 +108,7 @@ function injectStyle() {
       align-content: start;
       gap: 6px;
       min-height: 0;
+      max-height: 100%;
       flex: 1 1 auto;
       overflow-x: hidden;
       overflow-y: auto;
@@ -921,7 +922,7 @@ function setupPicker(node, pickerOptions = {}) {
     menu.remove();
   };
 
-  node.addDOMWidget("prompt_assets", "custom", root, {
+  const domWidget = node.addDOMWidget("prompt_assets", "custom", root, {
     getValue: () => selectionWidget.value,
     setValue: (value) => {
       selectionWidget.value = value || "{}";
@@ -932,8 +933,14 @@ function setupPicker(node, pickerOptions = {}) {
 
   const previousOnResize = node.onResize;
   const resizePicker = (size = node.size || [420, 500]) => {
+    const widgetTop =
+      Number.isFinite(domWidget?.last_y) && domWidget.last_y > 0
+        ? domWidget.last_y
+        : Number.isFinite(domWidget?.y) && domWidget.y > 0
+          ? domWidget.y
+          : 120;
     root.style.width = `${Math.max(320, size[0] - 20)}px`;
-    root.style.height = `${Math.max(320, size[1] - 80)}px`;
+    root.style.height = `${Math.max(220, size[1] - widgetTop - 18)}px`;
   };
 
   node.onResize = function (size) {
@@ -943,6 +950,7 @@ function setupPicker(node, pickerOptions = {}) {
 
   node.setSize([Math.max(node.size[0], 420), Math.max(node.size[1], 500)]);
   resizePicker();
+  requestAnimationFrame(() => resizePicker());
   refresh();
 }
 
